@@ -1,6 +1,6 @@
 # Giredore
 
-**Giredore** is an utility that does go-import redirects right.
+**Giredore** is an utility that does go-import redirects right. Main idea of this project is to provide easy-to-use yet powerful tool for Go developers to serve they packages right and help them with getting nice and very static URLs for their packages.
 
 ## What it able to do
 
