@@ -26,11 +26,11 @@ type fileConfig struct {
 		AllowedIPs      []string
 		allowedipsmutex sync.RWMutex
 		// Listen is an address on which HTTP server will listen.
-		Listen string `envconfig:"default=127.0.0.1:62222"`
+		Listen string
 		// WaitForSeconds is a timeout during which we will wait for
 		// HTTP server be up. If timeout will pass and HTTP server won't
 		// start processing requests - giredore will exit.
-		WaitForSeconds int `envconfig:"default=10"`
+		WaitForSeconds int
 	}
 	// Packages describes packages mapping.
 	Packages      map[string]*structs.Package
