@@ -49,7 +49,6 @@ func Shutdown() {
 		log.Fatal().Err(err).Msg("Failed to stop HTTP server")
 	}
 	log.Info().Msg("HTTP server shutted down")
-
 }
 
 // Start starts HTTP server and checks that server is ready to process
@@ -60,7 +59,7 @@ func Start() {
 	go func() {
 		err := Srv.Start(configuration.Cfg.HTTP.Listen)
 		if !strings.Contains(err.Error(), "Server closed") {
-			log.Fatal().Err(err).Msg("HTTP server critial error occured")
+			log.Fatal().Err(err).Msg("HTTP server critial error occurred")
 		}
 	}()
 
@@ -75,7 +74,7 @@ func Start() {
 		time.Sleep(time.Second * 1)
 		resp, err := httpc.Get("http://" + configuration.Cfg.HTTP.Listen + "/_internal/waitForOnline")
 		if err != nil {
-			log.Debug().Err(err).Msg("HTTP error occured, HTTP server isn't ready, waiting...")
+			log.Debug().Err(err).Msg("HTTP error occurred, HTTP server isn't ready, waiting...")
 			continue
 		}
 

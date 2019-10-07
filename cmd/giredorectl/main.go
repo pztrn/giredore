@@ -5,7 +5,7 @@ import (
 	"os"
 
 	// local
-	"sources.dev.pztrn.name/pztrn/giredore/domains/client/v1"
+	clientv1 "sources.dev.pztrn.name/pztrn/giredore/domains/client/v1"
 	"sources.dev.pztrn.name/pztrn/giredore/internal/logger"
 
 	// other

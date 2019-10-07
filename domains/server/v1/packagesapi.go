@@ -31,7 +31,7 @@ func packagesGET(ec echo.Context) error {
 		pkgs, errors = configuration.Cfg.GetPackagesInfo(req.PackageNames)
 	}
 
-	if errors != nil && len(errors) > 0 {
+	if len(errors) > 0 {
 		return ec.JSON(http.StatusBadRequest, &structs.Reply{Status: structs.StatusFailure, Errors: errors, Data: pkgs})
 	}
 

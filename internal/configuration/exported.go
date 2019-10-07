@@ -9,8 +9,7 @@ import (
 )
 
 var (
-	log               zerolog.Logger
-	loggerInitialized bool
+	log zerolog.Logger
 
 	envCfg *envConfig
 	Cfg    *fileConfig
@@ -18,7 +17,6 @@ var (
 
 func Initialize() {
 	log = logger.Logger.With().Str("type", "internal").Str("package", "configuration").Logger()
-	loggerInitialized = true
 	log.Info().Msg("Initializing...")
 
 	envCfg = &envConfig{}

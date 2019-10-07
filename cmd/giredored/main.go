@@ -7,7 +7,7 @@ import (
 	"syscall"
 
 	// local
-	"sources.dev.pztrn.name/pztrn/giredore/domains/server/v1"
+	serverv1 "sources.dev.pztrn.name/pztrn/giredore/domains/server/v1"
 	"sources.dev.pztrn.name/pztrn/giredore/internal/configuration"
 	"sources.dev.pztrn.name/pztrn/giredore/internal/httpserver"
 	"sources.dev.pztrn.name/pztrn/giredore/internal/logger"

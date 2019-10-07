@@ -14,8 +14,6 @@ import (
 var (
 	Logger         zerolog.Logger
 	SuperVerbosive bool
-
-	loggerInitialized bool
 )
 
 // Initialize initializes zerolog with proper formatting and log level.
@@ -72,5 +70,4 @@ func Initialize() {
 	}
 
 	Logger = zerolog.New(output).With().Timestamp().Logger()
-	loggerInitialized = true
 }
