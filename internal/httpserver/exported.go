@@ -32,9 +32,11 @@ func Initialize() {
 	Srv = echo.New()
 	Srv.Use(middleware.Recover())
 	Srv.Use(requestLogger())
+	Srv.Use(checkAllowedIPs())
 	Srv.DisableHTTP2 = true
 	Srv.HideBanner = true
 	Srv.HidePort = true
+	Srv.Binder = echo.Binder(&StrictJSONBinder{})
 
 	Srv.GET("/_internal/waitForOnline", waitForHTTPServerToBeUpHandler)
 }

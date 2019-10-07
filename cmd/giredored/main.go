@@ -33,6 +33,7 @@ func main() {
 	go func() {
 		<-signalHandler
 		httpserver.Shutdown()
+		configuration.Shutdown()
 		shutdownDone <- true
 	}()
 

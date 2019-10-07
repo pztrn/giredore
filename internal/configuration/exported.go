@@ -12,7 +12,8 @@ var (
 	log               zerolog.Logger
 	loggerInitialized bool
 
-	Cfg *config
+	envCfg *envConfig
+	Cfg    *fileConfig
 )
 
 func Initialize() {
@@ -20,6 +21,16 @@ func Initialize() {
 	loggerInitialized = true
 	log.Info().Msg("Initializing...")
 
-	Cfg = &config{}
+	envCfg = &envConfig{}
+	envCfg.Initialize()
+
+	Cfg = &fileConfig{}
 	Cfg.Initialize()
+
+	Cfg.HTTP.Listen = envCfg.HTTP.Listen
+	Cfg.HTTP.WaitForSeconds = envCfg.HTTP.WaitForSeconds
+}
+
+func Shutdown() {
+	Cfg.Save()
 }

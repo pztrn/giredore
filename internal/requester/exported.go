@@ -2,6 +2,8 @@ package requester
 
 import (
 	// stdlib
+	"bytes"
+	"encoding/json"
 	"io/ioutil"
 	"net/http"
 
@@ -21,14 +23,22 @@ func Initialize() {
 	log.Info().Msg("Initializing...")
 }
 
-func execRequest(method string, url string, data map[string]string) ([]byte, error) {
+func Delete(url string, data interface{}) ([]byte, error) {
+	return execRequest("DELETE", url, data)
+}
+
+func execRequest(method string, url string, data interface{}) ([]byte, error) {
 	log.Debug().Str("method", method).Str("URL", url).Msg("Trying to execute HTTP request...")
 
 	httpClient := getHTTPClient()
 
+	var dataToSend []byte
+	if data != nil {
+		dataToSend, _ = json.Marshal(data)
+	}
+
 	// Compose HTTP request.
-	// ToDo: POST/PUT/other methods that require body.
-	httpReq, err := http.NewRequest(method, url, nil)
+	httpReq, err := http.NewRequest(method, url, bytes.NewReader(dataToSend))
 	if err != nil {
 		return nil, err
 	}
@@ -51,4 +61,12 @@ func execRequest(method string, url string, data map[string]string) ([]byte, err
 
 func Get(url string) ([]byte, error) {
 	return execRequest("GET", url, nil)
+}
+
+func Post(url string, data interface{}) ([]byte, error) {
+	return execRequest("POST", url, data)
+}
+
+func Put(url string, data interface{}) ([]byte, error) {
+	return execRequest("PUT", url, data)
 }
