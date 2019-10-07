@@ -7,18 +7,6 @@
 * Be a HTTP server. *If you want HTTPS (and you normally should want it) - put giredore behind proxy or submit merge request that implements this feature)*
 * Provide simple CLI client for controlling things.
 
-## Installation
+## Documentation
 
-*TBW*
-
-## Configuration
-
-*TBW*
-
-## Usage
-
-*TBW*
-
-## Developing
-
-*TBW*
+Documentation is available [here](https://docs.dev.pztrn.name/s/bmdesotu0rrje1og7s5g/giredore).
