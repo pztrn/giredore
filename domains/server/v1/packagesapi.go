@@ -3,6 +3,7 @@ package serverv1
 import (
 	// stdlib
 	"net/http"
+	"strings"
 
 	// local
 	"sources.dev.pztrn.name/pztrn/giredore/internal/configuration"
@@ -65,6 +66,11 @@ func packagesSET(ec echo.Context) error {
 	}
 
 	log.Info().Msgf("Received package set/update request: %+v", req)
+
+	// Validate passed package data.
+	if !strings.HasPrefix(req.OriginalPath, "/") {
+		return ec.JSON(http.StatusBadRequest, &structs.Reply{Status: structs.StatusFailure, Errors: []structs.Error{structs.ErrPackageOrigPathShouldStartWithSlash}})
+	}
 
 	configuration.Cfg.AddOrUpdatePackage(req)
 
