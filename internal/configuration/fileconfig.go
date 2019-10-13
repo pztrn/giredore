@@ -10,7 +10,7 @@ import (
 	"sync"
 
 	// local
-	"sources.dev.pztrn.name/pztrn/giredore/internal/structs"
+	"go.dev.pztrn.name/giredore/internal/structs"
 )
 
 // This structure represents configuration that will be parsed via file.

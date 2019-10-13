@@ -6,8 +6,8 @@ import (
 	"strings"
 
 	// local
-	"sources.dev.pztrn.name/pztrn/giredore/internal/configuration"
-	"sources.dev.pztrn.name/pztrn/giredore/internal/structs"
+	"go.dev.pztrn.name/giredore/internal/configuration"
+	"go.dev.pztrn.name/giredore/internal/structs"
 
 	// other
 	"github.com/labstack/echo"

@@ -2,8 +2,8 @@ package clientv1
 
 import (
 	// local
-	"sources.dev.pztrn.name/pztrn/giredore/internal/logger"
-	"sources.dev.pztrn.name/pztrn/giredore/internal/requester"
+	"go.dev.pztrn.name/giredore/internal/logger"
+	"go.dev.pztrn.name/giredore/internal/requester"
 
 	// other
 	"github.com/rs/zerolog"

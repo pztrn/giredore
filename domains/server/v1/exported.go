@@ -2,8 +2,8 @@ package serverv1
 
 import (
 	// local
-	"sources.dev.pztrn.name/pztrn/giredore/internal/httpserver"
-	"sources.dev.pztrn.name/pztrn/giredore/internal/logger"
+	"go.dev.pztrn.name/giredore/internal/httpserver"
+	"go.dev.pztrn.name/giredore/internal/logger"
 
 	// other
 	"github.com/rs/zerolog"

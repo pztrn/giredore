@@ -9,8 +9,8 @@ import (
 	"time"
 
 	// local
-	"sources.dev.pztrn.name/pztrn/giredore/internal/configuration"
-	"sources.dev.pztrn.name/pztrn/giredore/internal/logger"
+	"go.dev.pztrn.name/giredore/internal/configuration"
+	"go.dev.pztrn.name/giredore/internal/logger"
 
 	// other
 	"github.com/labstack/echo"

@@ -5,8 +5,8 @@ import (
 	"os"
 
 	// local
-	clientv1 "sources.dev.pztrn.name/pztrn/giredore/domains/client/v1"
-	"sources.dev.pztrn.name/pztrn/giredore/internal/logger"
+	clientv1 "go.dev.pztrn.name/giredore/domains/client/v1"
+	"go.dev.pztrn.name/giredore/internal/logger"
 
 	// other
 	"github.com/teris-io/cli"

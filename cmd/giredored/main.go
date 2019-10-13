@@ -7,10 +7,10 @@ import (
 	"syscall"
 
 	// local
-	serverv1 "sources.dev.pztrn.name/pztrn/giredore/domains/server/v1"
-	"sources.dev.pztrn.name/pztrn/giredore/internal/configuration"
-	"sources.dev.pztrn.name/pztrn/giredore/internal/httpserver"
-	"sources.dev.pztrn.name/pztrn/giredore/internal/logger"
+	serverv1 "go.dev.pztrn.name/giredore/domains/server/v1"
+	"go.dev.pztrn.name/giredore/internal/configuration"
+	"go.dev.pztrn.name/giredore/internal/httpserver"
+	"go.dev.pztrn.name/giredore/internal/logger"
 )
 
 func main() {

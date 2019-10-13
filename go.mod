@@ -1,4 +1,4 @@
-module sources.dev.pztrn.name/pztrn/giredore
+module go.dev.pztrn.name/giredore
 
 go 1.13
 

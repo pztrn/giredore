@@ -8,7 +8,7 @@ import (
 	"net/http"
 
 	// local
-	"sources.dev.pztrn.name/pztrn/giredore/internal/logger"
+	"go.dev.pztrn.name/giredore/internal/logger"
 
 	// other
 	"github.com/rs/zerolog"
