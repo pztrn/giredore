@@ -5,8 +5,8 @@ import (
 	"strings"
 
 	// local
-	"sources.dev.pztrn.name/pztrn/giredore/internal/requester"
-	"sources.dev.pztrn.name/pztrn/giredore/internal/structs"
+	"go.dev.pztrn.name/giredore/internal/requester"
+	"go.dev.pztrn.name/giredore/internal/structs"
 )
 
 func GetConfiguration(options map[string]string) {
