@@ -39,7 +39,7 @@ steps:
         from_secret: dockerhub_user
       password:
         from_secret: dockerhub_password
-      repo: pztrn/fastpastebin
+      repo: pztrn/giredore
       auto_tag: true
 
   - name: notify-end
