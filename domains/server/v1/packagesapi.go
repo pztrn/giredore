@@ -24,7 +24,9 @@ func packagesGET(ec echo.Context) error {
 	log.Info().Msgf("Received package(s) info get request: %+v", req)
 
 	var pkgs map[string]*structs.Package
+
 	var errors []structs.Error
+
 	if req.All {
 		pkgs = configuration.Cfg.GetAllPackagesInfo()
 	} else {

@@ -11,6 +11,7 @@ import (
 
 func GetConfiguration(options map[string]string) {
 	url := "http://" + options["server"] + "/_api/configuration"
+
 	log.Info().Msg("Getting configuration from giredore server...")
 
 	data, err := requester.Get(url)
@@ -23,6 +24,7 @@ func GetConfiguration(options map[string]string) {
 
 func SetAllowedIPs(args []string, options map[string]string) {
 	url := "http://" + options["server"] + "/_api/configuration/allowedips"
+
 	log.Info().Str("allowed IPs", args[0]).Msg("Setting allowed IPs for API interaction...")
 
 	req := &structs.AllowedIPsSetRequest{

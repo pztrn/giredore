@@ -3,7 +3,8 @@ FROM golang:1.13.1-alpine AS build
 WORKDIR /go/src/sources.dev.pztrn.name/pztrn/giredore
 COPY . .
 
-RUN cd /go/src/sources.dev.pztrn.name/pztrn/giredore/cmd/giredored && go build && cd ../giredorectl && go build
+ENV CGO_ENABLED=0
+RUN cd /go/src/sources.dev.pztrn.name/pztrn/giredore/cmd/giredored && go build -tags netgo -ldflags '-w -extldflags "-static"' && cd ../giredorectl && go build -tags netgo -ldflags '-w -extldflags "-static"'
 
 FROM alpine:latest
 LABEL maintainer "Stanislav N. <pztrn@pztrn.name>"

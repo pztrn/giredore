@@ -17,6 +17,7 @@ func DeletePackage(args []string, options map[string]string) {
 	log.Info().Str("original path", req.OriginalPath).Msg("Sending package deletion request to giredored...")
 
 	url := "http://" + options["server"] + "/_api/packages"
+
 	data, err := requester.Delete(url, req)
 	if err != nil {
 		log.Fatal().Err(err).Msg("Failed to send package deletion request to giredored")
@@ -36,6 +37,7 @@ func GetPackages(args []string, options map[string]string) {
 	}
 
 	url := "http://" + options["server"] + "/_api/packages"
+
 	log.Info().Msg("Getting packages data from giredore server...")
 
 	data, err := requester.Post(url, req)
@@ -57,6 +59,7 @@ func SetPackage(args []string, options map[string]string) {
 	log.Info().Str("description", pkg.Description).Str("original path", pkg.OriginalPath).Str("real path", pkg.RealPath).Str("VCS", pkg.VCS).Msg("Sending set/update request to giredored...")
 
 	url := "http://" + options["server"] + "/_api/packages"
+
 	data, err := requester.Put(url, pkg)
 	if err != nil {
 		log.Fatal().Err(err).Msg("Failed to send package update/set request to giredored")

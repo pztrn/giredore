@@ -18,7 +18,9 @@ func throwGoImports(ec echo.Context) error {
 	// to list available packages.
 	// For now only package itself is supported, all other features in ToDo.
 	packageNameRaw := ec.Request().URL.Path
+
 	pkgs, errs := configuration.Cfg.GetPackagesInfo([]string{packageNameRaw})
+
 	if errs != nil {
 		log.Error().Str("package", packageNameRaw).Msgf("Failed to get package information: %+v", errs)
 		return ec.JSON(http.StatusBadRequest, &structs.Reply{Status: structs.StatusFailure, Errors: errs})

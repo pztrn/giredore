@@ -44,10 +44,12 @@ func Initialize() {
 // Shutdown stops HTTP server. Returns true on success and false on failure.
 func Shutdown() {
 	log.Info().Msg("Shutting down HTTP server...")
+
 	err := Srv.Shutdown(context.Background())
 	if err != nil {
 		log.Fatal().Err(err).Msg("Failed to stop HTTP server")
 	}
+
 	log.Info().Msg("HTTP server shutted down")
 }
 
@@ -59,19 +61,23 @@ func Start() {
 	go func() {
 		err := Srv.Start(configuration.Cfg.HTTP.Listen)
 		if !strings.Contains(err.Error(), "Server closed") {
-			log.Fatal().Err(err).Msg("HTTP server critial error occurred")
+			log.Fatal().Err(err).Msg("HTTP server critical error occurred")
 		}
 	}()
 
 	// Check that HTTP server was started.
 	httpc := &http.Client{Timeout: time.Second * 1}
 	checks := 0
+
 	for {
 		checks++
+
 		if checks >= configuration.Cfg.HTTP.WaitForSeconds {
 			log.Fatal().Int("seconds passed", checks).Msg("HTTP server isn't up")
 		}
+
 		time.Sleep(time.Second * 1)
+
 		resp, err := httpc.Get("http://" + configuration.Cfg.HTTP.Listen + "/_internal/waitForOnline")
 		if err != nil {
 			log.Debug().Err(err).Msg("HTTP error occurred, HTTP server isn't ready, waiting...")
@@ -80,10 +86,12 @@ func Start() {
 
 		response, err := ioutil.ReadAll(resp.Body)
 		resp.Body.Close()
+
 		if err != nil {
 			log.Debug().Err(err).Msg("Failed to read response body, HTTP server isn't ready, waiting...")
 			continue
 		}
+
 		log.Debug().Str("status", resp.Status).Int("body length", len(response)).Msg("HTTP response received")
 
 		if resp.StatusCode == http.StatusOK {
@@ -91,7 +99,9 @@ func Start() {
 				log.Debug().Msg("Response is empty, HTTP server isn't ready, waiting...")
 				continue
 			}
+
 			log.Debug().Int("status code", resp.StatusCode).Msgf("Response: %+v", string(response))
+
 			if len(response) == 17 {
 				break
 			}
@@ -104,5 +114,6 @@ func waitForHTTPServerToBeUpHandler(ec echo.Context) error {
 	response := map[string]string{
 		"error": "None",
 	}
+
 	return ec.JSON(200, response)
 }

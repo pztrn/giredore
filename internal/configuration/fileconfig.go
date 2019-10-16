@@ -62,6 +62,7 @@ func (fc *fileConfig) DeletePackage(req *structs.PackageDeleteRequest) []structs
 
 func (fc *fileConfig) GetAllowedIPs() []string {
 	var allowedIPs []string
+
 	fc.HTTP.allowedipsmutex.RLock()
 	allowedIPs = append(allowedIPs, fc.HTTP.AllowedIPs...)
 	fc.HTTP.allowedipsmutex.RUnlock()
@@ -83,6 +84,7 @@ func (fc *fileConfig) GetAllPackagesInfo() map[string]*structs.Package {
 
 func (fc *fileConfig) GetPackagesInfo(packages []string) (map[string]*structs.Package, []structs.Error) {
 	pkgs := make(map[string]*structs.Package)
+
 	var errors []structs.Error
 
 	fc.packagesMutex.Lock()
@@ -135,6 +137,7 @@ func (fc *fileConfig) Initialize() {
 
 	// Ensure that localhost (127.0.0.1) are defined in AllowedIPs.
 	var localhostIsAllowed bool
+
 	for _, ip := range fc.HTTP.AllowedIPs {
 		if strings.Contains(ip, "127.0.0.1") {
 			localhostIsAllowed = true
@@ -144,6 +147,7 @@ func (fc *fileConfig) Initialize() {
 
 	if !localhostIsAllowed {
 		cfgLoadLog.Warn().Msg("Localhost (127.0.0.1) wasn't allowed to access configuration API, adding it to list of allowed IP addresses")
+
 		fc.HTTP.AllowedIPs = append(fc.HTTP.AllowedIPs, "127.0.0.1")
 	} else {
 		cfgLoadLog.Debug().Msg("Localhost (127.0.0.1) is allowed to access configuration API")
@@ -161,6 +165,7 @@ func (fc *fileConfig) normalizePath(configPath string) (string, error) {
 		if err != nil {
 			return "", err
 		}
+
 		configPath = strings.Replace(configPath, "~", homeDir, 1)
 	}
 

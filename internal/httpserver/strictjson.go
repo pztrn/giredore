@@ -24,6 +24,7 @@ func (sjb *StrictJSONBinder) Bind(i interface{}, c echo.Context) error {
 	// Decode it.
 	decoder := json.NewDecoder(req.Body)
 	decoder.DisallowUnknownFields()
+
 	if err := decoder.Decode(i); err != nil {
 		if ute, ok := err.(*json.UnmarshalTypeError); ok {
 			return echo.NewHTTPError(http.StatusBadRequest, fmt.Sprintf("Unmarshal type error: expected=%v, got=%v, field=%v, offset=%v", ute.Type, ute.Value, ute.Field, ute.Offset))

@@ -23,6 +23,7 @@ func Initialize() {
 	loggerLevel, loggerLevelFound := os.LookupEnv("LOGGER_LEVEL")
 	if loggerLevelFound {
 		fmt.Println("Setting logger level to:", loggerLevel)
+
 		switch strings.ToUpper(loggerLevel) {
 		case "DEBUG":
 			zerolog.SetGlobalLevel(zerolog.DebugLevel)
@@ -36,7 +37,7 @@ func Initialize() {
 			zerolog.SetGlobalLevel(zerolog.FatalLevel)
 		default:
 			fmt.Println("Invalid logger level passed:", loggerLevel)
-			fmt.Println("Fofcing INFO")
+			fmt.Println("Forcing INFO")
 			zerolog.SetGlobalLevel(zerolog.InfoLevel)
 		}
 	} else {
@@ -47,6 +48,7 @@ func Initialize() {
 	output := zerolog.ConsoleWriter{Out: os.Stdout, NoColor: false, TimeFormat: time.RFC3339}
 	output.FormatLevel = func(i interface{}) string {
 		var v string
+
 		if ii, ok := i.(string); ok {
 			ii = strings.ToUpper(ii)
 			switch ii {
@@ -66,6 +68,7 @@ func Initialize() {
 				v = ii
 			}
 		}
+
 		return fmt.Sprintf("| %s |", v)
 	}
 

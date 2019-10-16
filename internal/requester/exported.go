@@ -52,6 +52,7 @@ func execRequest(method string, url string, data interface{}) ([]byte, error) {
 	if err2 != nil {
 		return nil, err2
 	}
+
 	response.Body.Close()
 
 	log.Debug().Int("response body length (bytes)", len(bodyBytes)).Msg("Got response")
