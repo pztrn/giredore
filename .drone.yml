@@ -23,7 +23,7 @@ steps:
       - notify-start
 
   - name: test
-    image: golang:1.13.1-alpine
+    image: golang:1.14.2-alpine
     environment:
       CGO_ENABLED: 0
     commands:
