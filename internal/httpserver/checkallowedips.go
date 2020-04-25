@@ -27,7 +27,9 @@ func checkAllowedIPs() echo.MiddlewareFunc {
 			// into comparable things.
 			// If IP address was specified without network mask - assume /32.
 			var subnets []*net.IPNet
+
 			allowedIPs := configuration.Cfg.GetAllowedIPs()
+
 			for _, ip := range allowedIPs {
 				ipToParse := ip
 				if !strings.Contains(ip, "/") {
@@ -46,7 +48,9 @@ func checkAllowedIPs() echo.MiddlewareFunc {
 			// Check if requester's IP address are within allowed IP
 			// subnets.
 			ipToCheck := net.ParseIP(ec.RealIP())
+
 			var allowed bool
+
 			for _, subnet := range subnets {
 				if subnet.Contains(ipToCheck) {
 					allowed = true

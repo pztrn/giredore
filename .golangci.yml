@@ -10,6 +10,8 @@ linters:
     - gocritic
     # Complains about main() lengths, which isn't an issue.
     - funlen
+    # Magic numbers might be everywhere. Disabled for now.
+    - gomnd
 linters-settings:
   lll:
     line-length: 420
