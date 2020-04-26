@@ -14,7 +14,7 @@ import (
 
 // This function responsible for getting runtime configuration.
 func configurationGET(ec echo.Context) error {
-	return ec.JSON(http.StatusOK, configuration.Cfg.GetAllPackagesInfo())
+	return ec.JSON(http.StatusOK, configuration.Cfg)
 }
 
 func configurationAllowedIPsSET(ec echo.Context) error {
