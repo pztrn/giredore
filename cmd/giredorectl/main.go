@@ -13,8 +13,8 @@ import (
 )
 
 func main() {
-	config := cli.NewCommand("configuration", "work with giredore server configuration").
-		WithShortcut("conf").
+	config := cli.NewCommand("serverconfig", "work with giredore server configuration").
+		WithShortcut("serverconf").
 		WithCommand(
 			cli.NewCommand("get", "gets and prints out current giredore server configuration").
 				WithAction(func(args []string, options map[string]string) int {
