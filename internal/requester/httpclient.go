@@ -1,14 +1,14 @@
 package requester
 
 import (
-	// stdlib
 	"net"
 	"net/http"
 	"time"
 )
 
+// nolint:exhaustivestruct
 func getHTTPClient() *http.Client {
-	c := &http.Client{
+	client := &http.Client{
 		Transport: &http.Transport{
 			ExpectContinueTimeout: time.Second * 5,
 			DialContext: (&net.Dialer{
@@ -19,5 +19,5 @@ func getHTTPClient() *http.Client {
 		},
 	}
 
-	return c
+	return client
 }

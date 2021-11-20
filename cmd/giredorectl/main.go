@@ -1,15 +1,11 @@
 package main
 
 import (
-	// stdlib
 	"os"
 
-	// local
+	"github.com/teris-io/cli"
 	clientv1 "go.dev.pztrn.name/giredore/domains/client/v1"
 	"go.dev.pztrn.name/giredore/internal/logger"
-
-	// other
-	"github.com/teris-io/cli"
 )
 
 func main() {
@@ -34,6 +30,7 @@ func main() {
 							logger.Initialize()
 							clientv1.Initialize()
 							clientv1.SetAllowedIPs(args, options)
+
 							return 0
 						}),
 				),

@@ -1,11 +1,8 @@
 package configuration
 
 import (
-	// local
-	"go.dev.pztrn.name/giredore/internal/logger"
-
-	// other
 	"github.com/rs/zerolog"
+	"go.dev.pztrn.name/giredore/internal/logger"
 )
 
 var (
@@ -19,9 +16,11 @@ func Initialize() {
 	log = logger.Logger.With().Str("type", "internal").Str("package", "configuration").Logger()
 	log.Info().Msg("Initializing...")
 
+	// nolint:exhaustivestruct
 	envCfg = &envConfig{}
 	envCfg.Initialize()
 
+	// nolint:exhaustivestruct
 	Cfg = &fileConfig{}
 	Cfg.Initialize()
 

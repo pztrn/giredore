@@ -1,12 +1,10 @@
 package main
 
 import (
-	// stdlib
 	"os"
 	"os/signal"
 	"syscall"
 
-	// local
 	serverv1 "go.dev.pztrn.name/giredore/domains/server/v1"
 	"go.dev.pztrn.name/giredore/internal/configuration"
 	"go.dev.pztrn.name/giredore/internal/httpserver"

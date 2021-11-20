@@ -1,7 +1,6 @@
 package configuration
 
 import (
-	// other
 	"github.com/vrischmann/envconfig"
 )
 

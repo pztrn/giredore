@@ -1,21 +1,17 @@
 package httpserver
 
 import (
-	// stdlib
 	"context"
 	"io/ioutil"
 	"net/http"
 	"strings"
 	"time"
 
-	// local
-	"go.dev.pztrn.name/giredore/internal/configuration"
-	"go.dev.pztrn.name/giredore/internal/logger"
-
-	// other
 	"github.com/labstack/echo"
 	"github.com/labstack/echo/middleware"
 	"github.com/rs/zerolog"
+	"go.dev.pztrn.name/giredore/internal/configuration"
+	"go.dev.pztrn.name/giredore/internal/logger"
 )
 
 var (
@@ -66,6 +62,7 @@ func Start() {
 	}()
 
 	// Check that HTTP server was started.
+	// nolint:exhaustivestruct
 	httpc := &http.Client{Timeout: time.Second * 1}
 	checks := 0
 
@@ -78,9 +75,17 @@ func Start() {
 
 		time.Sleep(time.Second * 1)
 
-		resp, err := httpc.Get("http://" + configuration.Cfg.HTTP.Listen + "/_internal/waitForOnline")
+		localCtx, cancelFunc := context.WithTimeout(context.Background(), time.Second*1)
+
+		req, err := http.NewRequestWithContext(localCtx, "GET", "http://"+configuration.Cfg.HTTP.Listen+"/_internal/waitForOnline", nil)
+		if err != nil {
+			log.Panic().Err(err).Msg("Failed to create HTTP request!")
+		}
+
+		resp, err := httpc.Do(req)
 		if err != nil {
 			log.Debug().Err(err).Msg("HTTP error occurred, HTTP server isn't ready, waiting...")
+
 			continue
 		}
 
@@ -89,6 +94,7 @@ func Start() {
 
 		if err != nil {
 			log.Debug().Err(err).Msg("Failed to read response body, HTTP server isn't ready, waiting...")
+
 			continue
 		}
 
@@ -97,23 +103,29 @@ func Start() {
 		if resp.StatusCode == http.StatusOK {
 			if len(response) == 0 {
 				log.Debug().Msg("Response is empty, HTTP server isn't ready, waiting...")
+
 				continue
 			}
 
 			log.Debug().Int("status code", resp.StatusCode).Msgf("Response: %+v", string(response))
 
 			if len(response) == 17 {
+				// This is useless context cancel function call. Thanks to lostcancel linter.
+				cancelFunc()
+
 				break
 			}
 		}
 	}
+
 	log.Info().Msg("HTTP server is ready to process requests")
 }
 
-func waitForHTTPServerToBeUpHandler(ec echo.Context) error {
+func waitForHTTPServerToBeUpHandler(ectx echo.Context) error {
 	response := map[string]string{
 		"error": "None",
 	}
 
-	return ec.JSON(200, response)
+	// nolint:wrapcheck
+	return ectx.JSON(200, response)
 }

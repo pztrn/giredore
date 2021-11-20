@@ -1,26 +1,21 @@
 package httpserver
 
 import (
-	// stdlib
 	"net"
 	"net/http"
 	"strings"
 
-	// local
+	"github.com/labstack/echo"
 	"go.dev.pztrn.name/giredore/internal/configuration"
 	"go.dev.pztrn.name/giredore/internal/structs"
-
-	// other
-	"github.com/labstack/echo"
 )
 
 func checkAllowedIPs() echo.MiddlewareFunc {
 	return func(next echo.HandlerFunc) echo.HandlerFunc {
-		return func(ec echo.Context) error {
+		return func(ectx echo.Context) error {
 			// Do nothing if request came not in "/_api" namespace.
-			if !strings.HasPrefix(ec.Request().RequestURI, "/_api") {
-				_ = next(ec)
-				return nil
+			if !strings.HasPrefix(ectx.Request().RequestURI, "/_api") {
+				return next(ectx)
 			}
 
 			// Get IPs and subnets from configuration and parse them
@@ -39,7 +34,9 @@ func checkAllowedIPs() echo.MiddlewareFunc {
 				_, net, err := net.ParseCIDR(ipToParse)
 				if err != nil {
 					log.Error().Err(err).Str("subnet", ipToParse).Msg("Failed to parse CIDR. /_api/ endpoint won't be accessible, this should be fixed manually in configuration file!")
-					return ec.JSON(http.StatusInternalServerError, &structs.Reply{Status: structs.StatusFailure, Errors: []structs.Error{structs.ErrInvalidAllowedIPDefined}})
+
+					// nolint:exhaustivestruct,wrapcheck
+					return ectx.JSON(http.StatusInternalServerError, &structs.Reply{Status: structs.StatusFailure, Errors: []structs.Error{structs.ErrInvalidAllowedIPDefined}})
 				}
 
 				subnets = append(subnets, net)
@@ -47,23 +44,24 @@ func checkAllowedIPs() echo.MiddlewareFunc {
 
 			// Check if requester's IP address are within allowed IP
 			// subnets.
-			ipToCheck := net.ParseIP(ec.RealIP())
+			ipToCheck := net.ParseIP(ectx.RealIP())
 
 			var allowed bool
 
 			for _, subnet := range subnets {
 				if subnet.Contains(ipToCheck) {
 					allowed = true
+
 					break
 				}
 			}
 
 			if allowed {
-				_ = next(ec)
-				return nil
+				return next(ectx)
 			}
 
-			return ec.JSON(http.StatusBadRequest, &structs.Reply{Status: structs.StatusFailure, Errors: []structs.Error{structs.ErrIPAddressNotAllowed}})
+			// nolint:exhaustivestruct,wrapcheck
+			return ectx.JSON(http.StatusBadRequest, &structs.Reply{Status: structs.StatusFailure, Errors: []structs.Error{structs.ErrIPAddressNotAllowed}})
 		}
 	}
 }

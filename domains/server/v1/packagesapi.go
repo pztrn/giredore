@@ -1,24 +1,23 @@
 package serverv1
 
 import (
-	// stdlib
 	"net/http"
 	"strings"
 
-	// local
+	"github.com/labstack/echo"
 	"go.dev.pztrn.name/giredore/internal/configuration"
 	"go.dev.pztrn.name/giredore/internal/structs"
-
-	// other
-	"github.com/labstack/echo"
 )
 
 // This function responsible for getting packages configuration.
-func packagesGET(ec echo.Context) error {
+func packagesGET(ectx echo.Context) error {
+	// nolint:exhaustivestruct
 	req := &structs.PackageGetRequest{}
-	if err := ec.Bind(req); err != nil {
+	if err := ectx.Bind(req); err != nil {
 		log.Error().Err(err).Msg("Failed to parse package get request")
-		return ec.JSON(http.StatusBadRequest, &structs.Reply{Status: structs.StatusFailure, Errors: []structs.Error{structs.ErrParsingPackagesGetRequest}})
+
+		// nolint:exhaustivestruct,wrapcheck
+		return ectx.JSON(http.StatusBadRequest, &structs.Reply{Status: structs.StatusFailure, Errors: []structs.Error{structs.ErrParsingPackagesGetRequest}})
 	}
 
 	log.Info().Msgf("Received package(s) info get request: %+v", req)
@@ -34,18 +33,23 @@ func packagesGET(ec echo.Context) error {
 	}
 
 	if len(errors) > 0 {
-		return ec.JSON(http.StatusBadRequest, &structs.Reply{Status: structs.StatusFailure, Errors: errors, Data: pkgs})
+		// nolint:wrapcheck
+		return ectx.JSON(http.StatusBadRequest, &structs.Reply{Status: structs.StatusFailure, Errors: errors, Data: pkgs})
 	}
 
-	return ec.JSON(http.StatusOK, &structs.Reply{Status: structs.StatusSuccess, Data: pkgs})
+	// nolint:exhaustivestruct,wrapcheck
+	return ectx.JSON(http.StatusOK, &structs.Reply{Status: structs.StatusSuccess, Data: pkgs})
 }
 
 // This function responsible for deleting package.
-func packagesDELETE(ec echo.Context) error {
+func packagesDELETE(ectx echo.Context) error {
+	// nolint:exhaustivestruct
 	req := &structs.PackageDeleteRequest{}
-	if err := ec.Bind(req); err != nil {
+	if err := ectx.Bind(req); err != nil {
 		log.Error().Err(err).Msg("Failed to parse package delete request")
-		return ec.JSON(http.StatusBadRequest, &structs.Reply{Status: structs.StatusFailure, Errors: []structs.Error{structs.ErrParsingDeleteRequest}})
+
+		// nolint:exhaustivestruct,wrapcheck
+		return ectx.JSON(http.StatusBadRequest, &structs.Reply{Status: structs.StatusFailure, Errors: []structs.Error{structs.ErrParsingDeleteRequest}})
 	}
 
 	log.Info().Msgf("Received package delete request: %+v", req)
@@ -53,28 +57,35 @@ func packagesDELETE(ec echo.Context) error {
 	errs := configuration.Cfg.DeletePackage(req)
 
 	if len(errs) > 0 {
-		return ec.JSON(http.StatusBadRequest, &structs.Reply{Status: structs.StatusFailure, Errors: errs})
+		// nolint:exhaustivestruct,wrapcheck
+		return ectx.JSON(http.StatusBadRequest, &structs.Reply{Status: structs.StatusFailure, Errors: errs})
 	}
 
-	return ec.JSON(http.StatusOK, &structs.Reply{Status: structs.StatusSuccess})
+	// nolint:exhaustivestruct,wrapcheck
+	return ectx.JSON(http.StatusOK, &structs.Reply{Status: structs.StatusSuccess})
 }
 
 // This function responsible for setting or updating packages.
-func packagesSET(ec echo.Context) error {
+func packagesSET(ectx echo.Context) error {
+	// nolint:exhaustivestruct
 	req := &structs.Package{}
-	if err := ec.Bind(req); err != nil {
+	if err := ectx.Bind(req); err != nil {
 		log.Error().Err(err).Msg("Failed to parse package data")
-		return ec.JSON(http.StatusBadRequest, nil)
+
+		// nolint:wrapcheck
+		return ectx.JSON(http.StatusBadRequest, nil)
 	}
 
 	log.Info().Msgf("Received package set/update request: %+v", req)
 
 	// Validate passed package data.
 	if !strings.HasPrefix(req.OriginalPath, "/") {
-		return ec.JSON(http.StatusBadRequest, &structs.Reply{Status: structs.StatusFailure, Errors: []structs.Error{structs.ErrPackageOrigPathShouldStartWithSlash}})
+		// nolint:exhaustivestruct,wrapcheck
+		return ectx.JSON(http.StatusBadRequest, &structs.Reply{Status: structs.StatusFailure, Errors: []structs.Error{structs.ErrPackageOrigPathShouldStartWithSlash}})
 	}
 
 	configuration.Cfg.AddOrUpdatePackage(req)
 
-	return ec.JSON(http.StatusOK, &structs.Reply{Status: structs.StatusSuccess})
+	// nolint:exhaustivestruct,wrapcheck
+	return ectx.JSON(http.StatusOK, &structs.Reply{Status: structs.StatusSuccess})
 }

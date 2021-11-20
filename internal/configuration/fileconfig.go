@@ -1,7 +1,6 @@
 package configuration
 
 import (
-	// stdlib
 	"encoding/json"
 	"io/ioutil"
 	"os"
@@ -9,7 +8,6 @@ import (
 	"strings"
 	"sync"
 
-	// local
 	"go.dev.pztrn.name/giredore/internal/structs"
 )
 
@@ -19,22 +17,22 @@ import (
 // may be accesses concurrently. In other words DO NOT USE EXPORTED FIELDS
 // DIRECTLY!
 type fileConfig struct {
+	packagesMutex sync.RWMutex
+	// Packages describes packages mapping.
+	Packages map[string]*structs.Package
 	// HTTP describes HTTP server configuration.
 	HTTP struct {
-		// AllowedIPs is a list of IPs that allowed to access API.
-		// There might be other authentication implemented in future.
-		AllowedIPs      []string
 		allowedipsmutex sync.RWMutex
 		// Listen is an address on which HTTP server will listen.
 		Listen string
+		// AllowedIPs is a list of IPs that allowed to access API.
+		// There might be other authentication implemented in future.
+		AllowedIPs []string
 		// WaitForSeconds is a timeout during which we will wait for
 		// HTTP server be up. If timeout will pass and HTTP server won't
 		// start processing requests - giredore will exit.
 		WaitForSeconds int
 	}
-	// Packages describes packages mapping.
-	Packages      map[string]*structs.Package
-	packagesMutex sync.RWMutex
 }
 
 func (fc *fileConfig) AddOrUpdatePackage(pkg *structs.Package) {
@@ -52,6 +50,7 @@ func (fc *fileConfig) DeletePackage(req *structs.PackageDeleteRequest) []structs
 
 	if !found {
 		errors = append(errors, structs.ErrPackageWasntDefined)
+
 		return errors
 	}
 
@@ -116,6 +115,7 @@ func (fc *fileConfig) Initialize() {
 	// exists.
 	if _, err2 := os.Stat(configPath); os.IsNotExist(err2) {
 		cfgLoadLog.Error().Msg("Unable to load configuration from filesystem.")
+
 		return
 	}
 
@@ -141,6 +141,7 @@ func (fc *fileConfig) Initialize() {
 	for _, ip := range fc.HTTP.AllowedIPs {
 		if strings.Contains(ip, "127.0.0.1") {
 			localhostIsAllowed = true
+
 			break
 		}
 	}
@@ -163,6 +164,7 @@ func (fc *fileConfig) normalizePath(configPath string) (string, error) {
 	if strings.Contains(configPath, "~") {
 		homeDir, err := os.UserHomeDir()
 		if err != nil {
+			// nolint:wrapcheck
 			return "", err
 		}
 
@@ -171,6 +173,7 @@ func (fc *fileConfig) normalizePath(configPath string) (string, error) {
 
 	absPath, err1 := filepath.Abs(configPath)
 	if err1 != nil {
+		// nolint:wrapcheck
 		return "", err1
 	}
 
@@ -186,6 +189,7 @@ func (fc *fileConfig) Save() {
 	data, err := json.Marshal(fc)
 	if err != nil {
 		cfgSaveLog.Fatal().Err(err).Msg("Failed to encode data into JSON. Configuration file won't be saved!")
+
 		return
 	}
 

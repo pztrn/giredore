@@ -1,32 +1,32 @@
 package serverv1
 
 import (
-	// stdlib
 	"net/http"
 
-	// local
+	"github.com/labstack/echo"
 	"go.dev.pztrn.name/giredore/internal/configuration"
 	"go.dev.pztrn.name/giredore/internal/structs"
-
-	// other
-	"github.com/labstack/echo"
 )
 
 // This function responsible for getting runtime configuration.
 func configurationGET(ec echo.Context) error {
+	// nolint:wrapcheck
 	return ec.JSON(http.StatusOK, configuration.Cfg)
 }
 
-func configurationAllowedIPsSET(ec echo.Context) error {
+func configurationAllowedIPsSET(ectx echo.Context) error {
+	// nolint:exhaustivestruct
 	req := &structs.AllowedIPsSetRequest{}
-	if err := ec.Bind(req); err != nil {
+	if err := ectx.Bind(req); err != nil {
 		log.Error().Err(err).Msg("Failed to parse allowed IPs set request")
-		return ec.JSON(http.StatusBadRequest, &structs.Reply{Status: structs.StatusFailure, Errors: []structs.Error{structs.ErrParsingAllowedIPsSetRequest}})
+		// nolint:exhaustivestruct,wrapcheck
+		return ectx.JSON(http.StatusBadRequest, &structs.Reply{Status: structs.StatusFailure, Errors: []structs.Error{structs.ErrParsingAllowedIPsSetRequest}})
 	}
 
 	log.Debug().Msgf("Got set allowed IPs request: %+v", req)
 
 	configuration.Cfg.SetAllowedIPs(req.AllowedIPs)
 
-	return ec.JSON(http.StatusOK, &structs.Reply{Status: structs.StatusSuccess})
+	// nolint:exhaustivestruct,wrapcheck
+	return ectx.JSON(http.StatusOK, &structs.Reply{Status: structs.StatusSuccess})
 }

@@ -15,6 +15,12 @@ linters:
 linters-settings:
   lll:
     line-length: 420
-  gocyclo:
-    min-complexity: 40
-  
+  cyclop:
+    max-complexity: 25
+
+issues:
+  exclude-rules:
+    # There will be some ToDos.
+    - linters:
+        - godox
+      text: "TODO"

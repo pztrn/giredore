@@ -1,10 +1,8 @@
 package clientv1
 
 import (
-	// stdlib
 	"strings"
 
-	// local
 	"go.dev.pztrn.name/giredore/internal/requester"
 	"go.dev.pztrn.name/giredore/internal/structs"
 )
@@ -29,6 +27,7 @@ func DeletePackage(args []string, options map[string]string) {
 func GetPackages(args []string, options map[string]string) {
 	pkgs := strings.Split(args[0], ",")
 
+	// nolint:exhaustivestruct
 	req := &structs.PackageGetRequest{}
 	if pkgs[0] == "all" {
 		req.All = true

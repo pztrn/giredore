@@ -1,22 +1,17 @@
 package requester
 
 import (
-	// stdlib
 	"bytes"
+	"context"
 	"encoding/json"
 	"io/ioutil"
 	"net/http"
 
-	// local
-	"go.dev.pztrn.name/giredore/internal/logger"
-
-	// other
 	"github.com/rs/zerolog"
+	"go.dev.pztrn.name/giredore/internal/logger"
 )
 
-var (
-	log zerolog.Logger
-)
+var log zerolog.Logger
 
 func Initialize() {
 	log = logger.Logger.With().Str("type", "internal").Str("package", "requester").Logger()
@@ -27,6 +22,7 @@ func Delete(url string, data interface{}) ([]byte, error) {
 	return execRequest("DELETE", url, data)
 }
 
+// nolint:wrapcheck
 func execRequest(method string, url string, data interface{}) ([]byte, error) {
 	log.Debug().Str("method", method).Str("URL", url).Msg("Trying to execute HTTP request...")
 
@@ -38,7 +34,7 @@ func execRequest(method string, url string, data interface{}) ([]byte, error) {
 	}
 
 	// Compose HTTP request.
-	httpReq, err := http.NewRequest(method, url, bytes.NewReader(dataToSend))
+	httpReq, err := http.NewRequestWithContext(context.Background(), method, url, bytes.NewReader(dataToSend))
 	if err != nil {
 		return nil, err
 	}

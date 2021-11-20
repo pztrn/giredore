@@ -1,10 +1,8 @@
 package clientv1
 
 import (
-	// stdlib
 	"strings"
 
-	// local
 	"go.dev.pztrn.name/giredore/internal/requester"
 	"go.dev.pztrn.name/giredore/internal/structs"
 )
