@@ -12,7 +12,7 @@ steps:
       - golangci-lint run
 
   - name: test
-    image: golang:1.17.3-alpine
+    image: code.pztrn.name/containers/mirror/golang:1.18.3-alpine
     environment:
       CGO_ENABLED: 0
     commands:
