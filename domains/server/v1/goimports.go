@@ -20,18 +20,18 @@ func throwGoImports(ectx echo.Context) error {
 	if errs != nil {
 		log.Error().Str("package", packageNameRaw).Msgf("Failed to get package information: %+v", errs)
 
-		// nolint:exhaustivestruct,wrapcheck
+		// nolint:exhaustruct,wrapcheck
 		return ectx.JSON(http.StatusBadRequest, &structs.Reply{Status: structs.StatusFailure, Errors: errs})
 	}
 
 	if len(pkgs) == 0 {
-		// nolint:exhaustivestruct,wrapcheck
+		// nolint:exhaustruct,wrapcheck
 		return ectx.JSON(http.StatusBadRequest, &structs.Reply{Status: structs.StatusFailure, Errors: []structs.Error{structs.ErrNoPackagesFound}})
 	}
 
 	pkg, found := pkgs[packageNameRaw]
 	if !found {
-		// nolint:exhaustivestruct,wrapcheck
+		// nolint:exhaustruct,wrapcheck
 		return ectx.JSON(http.StatusBadRequest, &structs.Reply{Status: structs.StatusFailure, Errors: []structs.Error{structs.ErrNoPackagesFound}})
 	}
 

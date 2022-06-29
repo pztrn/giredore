@@ -8,6 +8,7 @@ import (
 
 // nolint:exhaustivestruct
 func getHTTPClient() *http.Client {
+	// nolint:exhaustruct
 	client := &http.Client{
 		Transport: &http.Transport{
 			ExpectContinueTimeout: time.Second * 5,

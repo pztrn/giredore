@@ -27,7 +27,7 @@ func DeletePackage(args []string, options map[string]string) {
 func GetPackages(args []string, options map[string]string) {
 	pkgs := strings.Split(args[0], ",")
 
-	// nolint:exhaustivestruct
+	// nolint:exhaustruct
 	req := &structs.PackageGetRequest{}
 	if pkgs[0] == "all" {
 		req.All = true

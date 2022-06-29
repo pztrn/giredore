@@ -11,12 +11,12 @@ import (
 
 // This function responsible for getting packages configuration.
 func packagesGET(ectx echo.Context) error {
-	// nolint:exhaustivestruct
+	// nolint:exhaustruct
 	req := &structs.PackageGetRequest{}
 	if err := ectx.Bind(req); err != nil {
 		log.Error().Err(err).Msg("Failed to parse package get request")
 
-		// nolint:exhaustivestruct,wrapcheck
+		// nolint:exhaustruct,wrapcheck
 		return ectx.JSON(http.StatusBadRequest, &structs.Reply{Status: structs.StatusFailure, Errors: []structs.Error{structs.ErrParsingPackagesGetRequest}})
 	}
 
@@ -37,18 +37,18 @@ func packagesGET(ectx echo.Context) error {
 		return ectx.JSON(http.StatusBadRequest, &structs.Reply{Status: structs.StatusFailure, Errors: errors, Data: pkgs})
 	}
 
-	// nolint:exhaustivestruct,wrapcheck
+	// nolint:exhaustruct,wrapcheck
 	return ectx.JSON(http.StatusOK, &structs.Reply{Status: structs.StatusSuccess, Data: pkgs})
 }
 
 // This function responsible for deleting package.
 func packagesDELETE(ectx echo.Context) error {
-	// nolint:exhaustivestruct
+	// nolint:exhaustruct
 	req := &structs.PackageDeleteRequest{}
 	if err := ectx.Bind(req); err != nil {
 		log.Error().Err(err).Msg("Failed to parse package delete request")
 
-		// nolint:exhaustivestruct,wrapcheck
+		// nolint:exhaustruct,wrapcheck
 		return ectx.JSON(http.StatusBadRequest, &structs.Reply{Status: structs.StatusFailure, Errors: []structs.Error{structs.ErrParsingDeleteRequest}})
 	}
 
@@ -57,17 +57,17 @@ func packagesDELETE(ectx echo.Context) error {
 	errs := configuration.Cfg.DeletePackage(req)
 
 	if len(errs) > 0 {
-		// nolint:exhaustivestruct,wrapcheck
+		// nolint:exhaustruct,wrapcheck
 		return ectx.JSON(http.StatusBadRequest, &structs.Reply{Status: structs.StatusFailure, Errors: errs})
 	}
 
-	// nolint:exhaustivestruct,wrapcheck
+	// nolint:exhaustruct,wrapcheck
 	return ectx.JSON(http.StatusOK, &structs.Reply{Status: structs.StatusSuccess})
 }
 
 // This function responsible for setting or updating packages.
 func packagesSET(ectx echo.Context) error {
-	// nolint:exhaustivestruct
+	// nolint:exhaustruct
 	req := &structs.Package{}
 	if err := ectx.Bind(req); err != nil {
 		log.Error().Err(err).Msg("Failed to parse package data")
@@ -80,12 +80,12 @@ func packagesSET(ectx echo.Context) error {
 
 	// Validate passed package data.
 	if !strings.HasPrefix(req.OriginalPath, "/") {
-		// nolint:exhaustivestruct,wrapcheck
+		// nolint:exhaustruct,wrapcheck
 		return ectx.JSON(http.StatusBadRequest, &structs.Reply{Status: structs.StatusFailure, Errors: []structs.Error{structs.ErrPackageOrigPathShouldStartWithSlash}})
 	}
 
 	configuration.Cfg.AddOrUpdatePackage(req)
 
-	// nolint:exhaustivestruct,wrapcheck
+	// nolint:exhaustruct,wrapcheck
 	return ectx.JSON(http.StatusOK, &structs.Reply{Status: structs.StatusSuccess})
 }

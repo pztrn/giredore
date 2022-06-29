@@ -30,6 +30,7 @@ func execRequest(method string, url string, data interface{}) ([]byte, error) {
 
 	var dataToSend []byte
 	if data != nil {
+		// nolint:errchkjson
 		dataToSend, _ = json.Marshal(data)
 	}
 

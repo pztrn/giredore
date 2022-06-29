@@ -15,11 +15,11 @@ func configurationGET(ec echo.Context) error {
 }
 
 func configurationAllowedIPsSET(ectx echo.Context) error {
-	// nolint:exhaustivestruct
+	// nolint:exhaustruct
 	req := &structs.AllowedIPsSetRequest{}
 	if err := ectx.Bind(req); err != nil {
 		log.Error().Err(err).Msg("Failed to parse allowed IPs set request")
-		// nolint:exhaustivestruct,wrapcheck
+		// nolint:exhaustruct,wrapcheck
 		return ectx.JSON(http.StatusBadRequest, &structs.Reply{Status: structs.StatusFailure, Errors: []structs.Error{structs.ErrParsingAllowedIPsSetRequest}})
 	}
 
@@ -27,6 +27,6 @@ func configurationAllowedIPsSET(ectx echo.Context) error {
 
 	configuration.Cfg.SetAllowedIPs(req.AllowedIPs)
 
-	// nolint:exhaustivestruct,wrapcheck
+	// nolint:exhaustruct,wrapcheck
 	return ectx.JSON(http.StatusOK, &structs.Reply{Status: structs.StatusSuccess})
 }

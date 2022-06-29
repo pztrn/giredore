@@ -35,7 +35,7 @@ func checkAllowedIPs() echo.MiddlewareFunc {
 				if err != nil {
 					log.Error().Err(err).Str("subnet", ipToParse).Msg("Failed to parse CIDR. /_api/ endpoint won't be accessible, this should be fixed manually in configuration file!")
 
-					// nolint:exhaustivestruct,wrapcheck
+					// nolint:exhaustruct,wrapcheck
 					return ectx.JSON(http.StatusInternalServerError, &structs.Reply{Status: structs.StatusFailure, Errors: []structs.Error{structs.ErrInvalidAllowedIPDefined}})
 				}
 
@@ -60,7 +60,7 @@ func checkAllowedIPs() echo.MiddlewareFunc {
 				return next(ectx)
 			}
 
-			// nolint:exhaustivestruct,wrapcheck
+			// nolint:exhaustruct,wrapcheck
 			return ectx.JSON(http.StatusBadRequest, &structs.Reply{Status: structs.StatusFailure, Errors: []structs.Error{structs.ErrIPAddressNotAllowed}})
 		}
 	}

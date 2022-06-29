@@ -62,7 +62,7 @@ func Start() {
 	}()
 
 	// Check that HTTP server was started.
-	// nolint:exhaustivestruct
+	// nolint:exhaustruct
 	httpc := &http.Client{Timeout: time.Second * 1}
 	checks := 0
 

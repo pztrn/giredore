@@ -12,6 +12,8 @@ linters:
     - funlen
     # Magic numbers might be everywhere. Disabled for now.
     - gomnd
+    # Deprecated.
+    - exhaustivestruct
 linters-settings:
   lll:
     line-length: 420

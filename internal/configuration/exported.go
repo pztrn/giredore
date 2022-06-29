@@ -16,11 +16,11 @@ func Initialize() {
 	log = logger.Logger.With().Str("type", "internal").Str("package", "configuration").Logger()
 	log.Info().Msg("Initializing...")
 
-	// nolint:exhaustivestruct
+	// nolint:exhaustruct
 	envCfg = &envConfig{}
 	envCfg.Initialize()
 
-	// nolint:exhaustivestruct
+	// nolint:exhaustruct
 	Cfg = &fileConfig{}
 	Cfg.Initialize()
 
